@@ -4,7 +4,8 @@ function getUserInfo () {
         type:'GET',
         url:'/my/userinfo',
         success: res => {
-            console.log(res);
+            if(res.status !== 0) return layer.msg('登录失败')
+            // console.log(res);
             randerAvatar(res.data)
         }
     })
@@ -12,7 +13,7 @@ function getUserInfo () {
 
 // 渲染用户信息
 const randerAvatar = user => {
-    const uname = user.nickname || user.username
+    const uname = user.nickname||user.username
     $('#welcome').html(`欢迎${uname}登录`)
     // 按需渲染头像
     if(user.user_pic !== null) {
@@ -23,7 +24,7 @@ const randerAvatar = user => {
         $('.layui-nav-img').hide()
     }
 }
-
+// 退出功能
 $('#btnlogout').click(() => {
     layer.confirm('是否要退出?', {icon: 3, title:'提示'}, function(index){
         localStorage.removeItem('token')
